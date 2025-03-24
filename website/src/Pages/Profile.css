@@ -1,0 +1,25 @@
+/* Styles for medium and small screens */
+@media (max-width: 991px) { /* This targets md and sm screens */
+    .leaderboard-status {
+      height: 1vh;
+      position: absolute;
+      top: 5vh;
+      right: 2vw;
+    }
+}
+
+/* body{
+  background: #709176;
+} */
+
+/* Styles for medium and small screens */
+@media (max-width: 991px) { /* This targets md and sm screens */
+    .name-div {
+      height: 1vh;
+      position: absolute;
+      top: 2vh;
+      left: 5vw;
+    }
+  }
+
+

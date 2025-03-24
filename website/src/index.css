@@ -1,0 +1,134 @@
+body {
+  /* margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; */
+  background: #709176;
+}
+
+/* .background {
+  background-color: #45a049;
+} */
+
+.take-photo-button {
+  width: 80px;      /* Adjust to control the oval width */
+  height: 40px;     /* Adjust to control the oval height */
+  background-color: #79745C; /* Choose a background color */
+  border: none;
+  border-radius: 50px;  /* Creates the oval shape */
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.take-photo-button:hover {
+  background-color: #79745C;  /* Hover effect */
+}
+
+.donate-button {
+  width: 80px;      /* Adjust to control the oval width */
+  height: 40px;     /* Adjust to control the oval height */
+  background-color: #79745C; /* Choose a background color */
+  border: none;
+  border-radius: 50px;  /* Creates the oval shape */
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.donate-button:hover {
+  background-color: #79745C;  /* Hover effect */
+}
+
+.top-right-button {
+  position: absolute;
+  top: 10px; /* distance from the top */
+  right: 10px; /* distance from the right */
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.camera-screen {
+  align-items: center;
+  width: 600px;
+  height: 400px;
+  border-radius: 20px; /* Rounded corners */
+  border: 5px solid #704E2E;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Smooth shadow for a nice effect */
+  object-fit: cover; /* Ensures video fits while maintaining aspect ratio */
+
+}
+
+.taken_picture {
+  width: 600px;
+  height: 400px;
+  border-radius: 20px; /* Rounded corners */
+  border: 5px solid #704E2E;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.skibidi {
+  text-decoration: none;
+  color: inherit;
+}
+
+h1 {
+  color: red;
+}
+
+.top-right-button .btn a {
+  color: rgb(0, 0, 0) !important; /* Example of using specificity */
+  text-decoration: none;
+}
+
+.skibidi a {
+  color: inherit !important;
+  text-decoration: none;
+}
+
+.btn {
+  width: 50px; /* Set the desired width */
+  height: 50px; /* Set the desired height */
+  background-image: url('assets/profile.png'); /* The URL to your PNG image */
+  background-size: cover; /* Ensures the image covers the button */
+  background-position: center; /* Centers the image */
+  border-radius: 50%; /* This makes it a circle */
+  border: none; /* Optional: Removes the default border */
+  display: inline-block;
+}
+
+.btn:hover {
+  background-color: rgba(0, 0, 0, 0.2); /* Optional hover effect */
+  cursor: pointer;
+}
+

@@ -1,0 +1,68 @@
+name: CI/CD Pipeline for React Frontend and Flask Backend
+
+on:
+  push:
+    branches:
+      - Ashwin  # Trigger on push to the 'main' branch
+  pull_request:
+    branches:
+      - main  # Trigger on pull request targeting 'main'
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest  # Choose the appropriate runner (Ubuntu in this case)
+
+    steps:
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Set up Python for Flask backend
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  # Use the appropriate version of Python for your Flask backend
+
+      # Install backend dependencies (Flask and other dependencies)
+      - name: Install backend dependencies
+        run: |
+          cd FoodQuest
+          python -m venv venv  # Set up a virtual environment for the backend
+          source venv/bin/activate
+          pip install -r requirements.txt  # Install Flask dependencies
+
+      # Set up Node.js for React frontend
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Use the appropriate version of Node.js for your React project
+
+      # Install frontend dependencies (React)
+      - name: Install frontend dependencies
+        run: |
+          cd website
+          npm install # Install React dependencies using npm
+
+      # Run Flask backend (optional: you can add tests or linting here)
+      - name: Run Flask backend server
+        run: |
+          cd server
+          source venv/bin/activate
+          FLASK_APP=app.py FLASK_ENV=development python server.py &  # Run Flask in the background
+
+      # Run React frontend (optional: you can add tests or linting here)
+      - name: Run React frontend
+        run: |
+          cd FoodQuest/website
+          npm start
+
+      #Wait for both services to run (you can adjust the sleep time based on your needs)
+      - name: Wait for services to start
+        run: sleep 20  # Wait for both servers to start
+
+      # Optionally, you can add further steps for testing or lintin
+          
+          
+      # If everything is good, you can deploy or notify the team here
+      - name: Notify success
+        run: echo "CI/CD pipeline executed successfully!"

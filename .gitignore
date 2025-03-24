@@ -1,0 +1,18 @@
+.env
+node_modules
+
+# Python cache and environment files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+env/
+
+# IDE files
+.vscode/
+.idea/
+
+data
+*.pkl
+cv_data/venv_cv
