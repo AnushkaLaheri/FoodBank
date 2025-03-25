@@ -1,18 +1,6 @@
-.env
-node_modules
 
-# Python cache and environment files
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-venv/
-env/
 
-# IDE files
-.vscode/
-.idea/
 
-data
-*.pkl
-cv_data/venv_cv
+# PyPI configuration file
+.pypirc
+>>>>>>> 44b93b0ebd098944a8413a011a2b99ea5150ba5d
