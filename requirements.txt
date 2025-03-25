@@ -1,15 +1,12 @@
 attr==0.3.2
-#ConfigParser==7.1.0
 contextlib2==21.6.0
 cryptography==43.0.1
 docutils==0.21.2
 filelock==3.16.1
-#HTMLParser==0.0.2
 importlib_metadata==8.5.0
 ipython==8.12.3
 ipywidgets==8.1.5
 Jinja2==3.1.4
-#jnius==1.1.0
 keyring==25.4.1
 mock==5.1.0
 Pillow==10.4.0
@@ -23,4 +20,3 @@ Sphinx==8.0.2
 thread==2.0.5
 tornado==6.4.1
 urllib3_secure_extra==0.1.0
-#xmlrpclib==1.0.1
