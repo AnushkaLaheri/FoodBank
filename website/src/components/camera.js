@@ -1,19 +1,17 @@
-import React, {useRef, useEffect, useState} from "react";
-// import {useNavigate} from "react-router-dom"
-import ListFood from "./ListFood";
+import React, { useRef, useState, useEffect } from 'react';
+import ListFood from './ListFood'; // Assuming ListFood handles displaying model prediction
 import '../index.css';
 import '../Pages/Profile';
 import './camera.css';
-
 
 const WebCam = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [photo, setPhoto] = useState(null);
-  const [buttonClicked, setButtonClicked] = useState(false)
-  const [mlJson, setMlJson] = useState("")
-
-  // const navigate = useNavigate()
+  const [buttonClicked, setButtonClicked] = useState(false);
+  const [mlJson, setMlJson] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state for API calls
+  const [error, setError] = useState(""); // Error state for any failures
 
   useEffect(() => {
     const startWebcam = async () => {
@@ -33,19 +31,18 @@ const WebCam = () => {
       if (videoRef.current && videoRef.current.srcObject) {
         const stream = videoRef.current.srcObject;
         const tracks = stream.getTracks();
-
         tracks.forEach(track => track.stop());
       }
     };
   }, []);
 
-  // Capture the current frame from the video stream
   const takePhoto = async () => {
     const width = videoRef.current.videoWidth;
     const height = videoRef.current.videoHeight;
     const canvas = canvasRef.current;
 
-    setButtonClicked(true)
+    setButtonClicked(true);
+    setLoading(true); // Start loading
 
     canvas.width = width;
     canvas.height = height;
@@ -67,18 +64,21 @@ const WebCam = () => {
 
       const result = await response.json();
       if (response.ok) {
-        console.log('result: ', result)
-        setMlJson(result)
+        setMlJson(result);
       } else {
-        console.error('Failed to save image:', result.error);
+        setError("Failed to process the image.");
       }
     } catch (err) {
-      console.error('Error saving the image:', err);
+      setError('Error saving the image');
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
   const donateItem = async () => {
-    console.log("Donated!")
+    console.log("Donated!");
+    setLoading(true); // Start loading for donation
+
     try {
       const response = await fetch('http://localhost:5001/insert-food', {
         method: 'POST',
@@ -90,46 +90,49 @@ const WebCam = () => {
 
       const result = await response.json();
       if (response.ok) {
-        console.log('result: ', result)
-        alert("You have succesfully donated the item!")
-        setButtonClicked(false)
+        alert('You have successfully donated the item!');
+        setButtonClicked(false);
       } else {
-        console.error('Failed to save image:', result.error);
+        setError('Failed to donate the item.');
       }
     } catch (err) {
-      console.error('Error saving the image:', err);
+      setError('Error donating the item');
+    } finally {
+      setLoading(false); // Stop loading
     }
-  }
+  };
 
   return (
-    // <div className="background">
     <div>
-      <h1 className= "skibidi fst-italic font-weight-bold text-primary"><a href="ranks">LeaderBoard 3</a></h1>  
+      <h1 className="skibidi fst-italic font-weight-bold text-primary">
+        <a href="ranks">LeaderBoard 3</a>
+      </h1>
       <div className="top-right-button">
-        <button className="btn"  onClick={() => window.location.href='profile'}><a href='profile'></a></button>
-      </div>
-      
-      <video ref={videoRef} autoPlay width="600" height="400" children className="camera-screen" />
-        <div>
-        <button class="button" onClick={takePhoto}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none" class="svg-icon"><g stroke-width="2" stroke-linecap="round" stroke="#fff" fill-rule="evenodd" clip-rule="evenodd"><path d="m4 9c0-1.10457.89543-2 2-2h2l.44721-.89443c.33879-.67757 1.03131-1.10557 1.78889-1.10557h3.5278c.7576 0 1.4501.428 1.7889 1.10557l.4472.89443h2c1.1046 0 2 .89543 2 2v8c0 1.1046-.8954 2-2 2h-12c-1.10457 0-2-.8954-2-2z"></path><path d="m15 13c0 1.6569-1.3431 3-3 3s-3-1.3431-3-3 1.3431-3 3-3 3 1.3431 3 3z"></path></g></svg>
-          <span class="lable">Take a Photo</span>
+        <button className="btn" onClick={() => window.location.href = 'profile'}>
+          <a href="profile"></a>
         </button>
-        </div>
+      </div>
+
+      <video ref={videoRef} autoPlay width="600" height="400" className="camera-screen" />
+      <div>
+        <button className="button" onClick={takePhoto} disabled={loading}>
+          {loading ? 'Capturing...' : 'Take a Photo'}
+        </button>
+      </div>
+
       <canvas ref={canvasRef} style={{ display: 'none' }} />
       {photo && (
         <div>
           <h2>Captured Photo:</h2>
           <img src={photo} alt="Captured" className="taken_picture" />
-          <ListFood data={mlJson}></ListFood>
-          <button className="donate-button" onClick={donateItem}>
-            Donate!
+          <ListFood data={mlJson} />
+          <button className="donate-button" onClick={donateItem} disabled={loading}>
+            {loading ? 'Processing Donation...' : 'Donate!'}
           </button>
-          <br></br>
         </div>
       )}
+      {error && <p className="error-message">{error}</p>} {/* Display error messages */}
     </div>
-    // </div>
   );
 };
 

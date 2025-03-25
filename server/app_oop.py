@@ -1,16 +1,32 @@
+# -*- coding: utf-8 -*-
+import sys
+import io
+
+# Set default encoding to UTF-8
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+
+
 import mysql.connector
 from datetime import datetime
 
+import mysql.connector
+
 class FoodQuestDB:
     def __init__(self, dbname, user, host, port, password):
-        self.connection = mysql.connector.connect(
-            host=host,
-            user=user,
-            password=password,
-            database=dbname,
-            port=port
-        )
-        self.cur = self.connection.cursor()
+        try:
+            self.connection = mysql.connector.connect(
+                host=host,
+                user=user,
+                password=password,
+                database=dbname,
+                port=port
+            )
+            self.cur = self.connection.cursor()
+            print(" Successfully connected to MySQL!")
+        except mysql.connector.Error as err:
+            print(f" Database connection failed: {err}")
+            self.connection = None  # Avoid breaking the app if connection fails
+
 
     def __del__(self):
         self.cur.close()
@@ -39,14 +55,24 @@ class FoodQuestDB:
 
     def get_users_ordered_by_points(self):
         query = """
-            SELECT u.user_id, u.username, IFNULL(SUM(p.points_awarded), 0) AS total_points
-            FROM users u
-            LEFT JOIN points p ON u.user_id = p.user_id
-            GROUP BY u.user_id, u.username
-            ORDER BY total_points DESC;
+        SELECT u.user_id, u.username, COALESCE(SUM(p.points_awarded), 0) AS total_points
+        FROM users u
+        LEFT JOIN points p ON u.user_id = p.user_id
+        GROUP BY u.user_id, u.username
+        ORDER BY total_points DESC;
         """
-        return self.execute_query(query)
+        result = self.execute_query(query)
 
+        # Debugging
+        print(f"SQL Query Result: {result}")  
+
+        if result is None:
+            print("⚠️ Query returned None. Possible SQL error!")
+            return []
+
+        return [{"id": user[0], "username": user[1], "points": user[2]} for user in result]
+
+        
     def get_user_rank(self, user_id):
         query = """
             SET @rank = 0;

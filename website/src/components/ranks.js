@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Image } from 'react-bootstrap';
 import { FaHome } from 'react-icons/fa';
 import './ranks.css';
 
 const Ranks = () => {
     const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -22,28 +23,36 @@ const Ranks = () => {
                 const sortedData = formattedData.sort((a, b) => b.points - a.points);
                 setUsers(sortedData);
             } catch (error) {
+                setError('Error fetching user data');
                 console.error('Error fetching user data:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchUsers();
     }, []);
 
-    const sortedUsers = users.sort((a, b) => b.points - a.points);
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
 
     return (
-        <div className='bodytypeshit'>
-            <div >        
+        <div className="bodytypeshit">
+            <div>
                 <h1 className="text-warning">Leaderboard</h1>
-                <div className='top-5' style={{ position: 'relative', padding: '20px', left: "2vw" }}>
+                <div className="top-5" style={{ position: 'relative', padding: '20px', left: "2vw" }}>
                     {/* Home Icon on the Left */}
                     <a href="/" style={{ textDecoration: 'none', color: 'black', position: 'absolute', top: '10px', left: '10px' }}>
-                        <FaHome size={40} className="fg-warning text-warning" /> {/* Adjust size if needed */}
+                        <FaHome size={40} className="fg-warning text-warning" />
                     </a>
                 </div>
-                <br>
-                </br>
-                <div className='table-of-stuff'>
+
+                <div className="table-of-stuff">
                     <table>
                         <thead>
                             <tr>
@@ -53,7 +62,7 @@ const Ranks = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {sortedUsers.map((user, index) => (
+                            {users.map((user, index) => (
                                 <tr key={user.id}>
                                     <td>{index + 1}</td>
                                     <td>{user.username}</td>
