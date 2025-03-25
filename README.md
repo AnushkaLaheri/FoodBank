@@ -21,7 +21,7 @@ FoodBank AI is a gamified web application designed to encourage food donations b
 
 - **Backend**:
   - **Python**: Data processing and API integration for food nutrient data.
-  - **PostgreSQL**: Database for storing user data, donation history, and leadership board information.
+  - **MySQL**: Database for storing user data, donation history, and leadership board information.
 
 - **Frontend**:
   - **React**: Front-end framework for building a responsive and interactive user interface.
